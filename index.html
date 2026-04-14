@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Жеті Ата — Генетикалық Мұра</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0705;--surface:#130e0a;--surface2:#1e1510;--gold:#c9a84c;--gold2:#e8c96a;--amber:#d4781a;--cream:#f5ead6;--muted:#8a7a68;--text:#f0e6d3;--border:rgba(201,168,76,0.2);}
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;overflow-x:hidden;}
+.cursor{position:fixed;width:8px;height:8px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);}
+.cursor-ring{position:fixed;width:36px;height:36px;border:1px solid rgba(201,168,76,.5);border-radius:50%;pointer-events:none;z-index:9998;transition:left .12s,top .12s;transform:translate(-50%,-50%);}
+header{position:fixed;top:0;left:0;right:0;z-index:1000;padding:1.2rem 5%;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);background:rgba(10,7,5,.9);backdrop-filter:blur(20px);}
+.logo{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;letter-spacing:.15em;color:var(--gold);}
+.logo span{color:var(--cream);}
+nav{display:flex;gap:2rem;align-items:center;flex-wrap:wrap;}
+nav a{text-decoration:none;color:var(--muted);font-size:.82rem;letter-spacing:.08em;text-transform:uppercase;transition:color .3s;}
+nav a:hover{color:var(--gold);}
+.lang-btn{background:transparent;border:1px solid var(--gold);color:var(--gold);font-family:'DM Sans',sans-serif;font-size:.8rem;letter-spacing:.1em;padding:.4rem 1rem;cursor:pointer;transition:all .3s;border-radius:2px;}
+.lang-btn:hover{background:var(--gold);color:var(--bg);}
+[data-lang="kk"] .en{display:none;}
+[data-lang="en"] .kk{display:none;}
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:6rem 5% 3rem;}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 70% 50%,rgba(201,168,76,.07) 0%,transparent 70%),radial-gradient(ellipse 40% 60% at 20% 30%,rgba(212,120,26,.05) 0%,transparent 60%);}
+.hero-lines{position:absolute;inset:0;overflow:hidden;opacity:.3;}
+.hero-line{position:absolute;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);animation:scanline 6s linear infinite;}
+@keyframes scanline{0%{top:-1px;opacity:0;}10%{opacity:1;}90%{opacity:1;}100%{top:100%;opacity:0;}}
+.hero-content{position:relative;z-index:2;max-width:900px;text-align:center;}
+.hero-eyebrow{font-size:.75rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:2rem;opacity:0;animation:fadeUp .8s .3s forwards;}
+.hero-title{font-family:'Playfair Display',serif;font-size:clamp(4rem,10vw,9rem);font-weight:900;line-height:.95;margin-bottom:1.5rem;opacity:0;animation:fadeUp .8s .5s forwards;}
+.hero-title .line1{display:block;color:var(--cream);}
+.hero-title .line2{display:block;background:linear-gradient(135deg,var(--gold),var(--amber));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.hero-sub{font-size:1.05rem;color:var(--muted);max-width:520px;margin:0 auto 3rem;line-height:1.7;opacity:0;animation:fadeUp .8s .7s forwards;}
+.hero-cta{display:inline-flex;align-items:center;gap:.8rem;background:transparent;border:1px solid var(--gold);color:var(--gold);font-family:'DM Sans',sans-serif;font-size:.9rem;letter-spacing:.1em;text-transform:uppercase;padding:1rem 2.5rem;cursor:pointer;transition:all .4s;text-decoration:none;opacity:0;animation:fadeUp .8s .9s forwards;}
+.hero-cta:hover{background:var(--gold);color:var(--bg);}
+.hero-cta:hover .arrow{transform:translateX(6px);}
+.arrow{transition:transform .3s;display:inline-block;}
+.hero-stats{display:flex;gap:4rem;justify-content:center;opacity:0;animation:fadeUp .8s 1.1s forwards;margin-top:3rem;flex-wrap:wrap;}
+.stat{text-align:center;}.stat-num{font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:700;color:var(--gold);display:block;}
+.stat-label{font-size:.72rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;}
+section{padding:8rem 5%;}
+.sec-label{font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;}
+.sec-title{font-family:'Playfair Display',serif;font-size:clamp(2.5rem,5vw,4rem);font-weight:700;color:var(--cream);line-height:1.1;margin-bottom:1.5rem;}
+.sec-sub{color:var(--muted);max-width:500px;line-height:1.7;}
+.divider{border:none;border-top:1px solid var(--border);margin:0 5%;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+.reveal{opacity:0;transform:translateY(40px);transition:opacity .8s ease,transform .8s ease;}
+.reveal.visible{opacity:1;transform:none;}
+
+/* LAB */
+.lab-section{background:var(--surface);}
+.lab-inner{max-width:1200px;margin:0 auto;}
+.lab-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:5rem;flex-wrap:wrap;gap:2rem;}
+.beakers-stage{display:flex;align-items:flex-end;justify-content:center;gap:1rem;flex-wrap:wrap;margin-bottom:3rem;}
+.beaker-col{display:flex;flex-direction:column;align-items:center;gap:.8rem;}
+.beaker-title{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
+.beaker{width:64px;height:120px;}.beaker svg{width:100%;height:100%;}
+.beaker-pct{font-size:.9rem;font-weight:500;color:var(--gold);}
+.op-symbol{font-size:1.5rem;color:var(--muted);padding-bottom:3rem;}
+.result-arrow{display:flex;flex-direction:column;align-items:center;padding-bottom:2.5rem;gap:.5rem;}
+.result-pct-sm{font-size:.72rem;background:rgba(201,168,76,.1);border:1px solid var(--border);color:var(--gold);padding:.2rem .8rem;border-radius:99px;}
+.lab-controls{display:flex;gap:1rem;justify-content:center;margin-bottom:3rem;flex-wrap:wrap;}
+.btn-lab{background:transparent;border:1px solid var(--border);color:var(--text);font-family:'DM Sans',sans-serif;font-size:.85rem;padding:.8rem 2rem;cursor:pointer;transition:all .3s;border-radius:2px;}
+.btn-lab.accent{border-color:var(--gold);color:var(--gold);}
+.btn-lab:hover{background:rgba(201,168,76,.1);border-color:var(--gold);color:var(--gold);}
+.lab-result{background:var(--surface2);border:1px solid var(--border);border-radius:4px;padding:2rem 3rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:2rem;}
+.result-swatch{width:80px;height:80px;border-radius:50%;border:2px solid var(--border);transition:background .8s;}
+.result-info{flex:1;min-width:200px;}
+.result-name{font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--cream);margin-bottom:.3rem;}
+.result-desc{color:var(--muted);font-size:.9rem;}
+.result-pct-big{font-family:'Playfair Display',serif;font-size:3.5rem;font-weight:900;background:linear-gradient(135deg,var(--gold),var(--amber));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.gen-history{display:flex;gap:.5rem;margin-top:2rem;flex-wrap:wrap;}
+.gen-pill{font-size:.75rem;padding:.3rem 1rem;border-radius:99px;border:1px solid transparent;color:var(--muted);transition:all .3s;}
+.gen-pill.active{border-color:var(--gold);color:var(--gold);}
+.gen-pill.done{background:var(--muted);color:var(--surface2);}
+
+/* DNA */
+.dna-section{background:var(--bg);}
+.dna-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center;}
+.dna-canvas-wrap{position:relative;height:400px;display:flex;align-items:center;justify-content:center;}
+.dna-bars{margin-top:3rem;display:flex;flex-direction:column;gap:1.2rem;}
+.dna-bar-row{display:flex;align-items:center;gap:1rem;}
+.dna-bar-label{font-size:.8rem;color:var(--muted);width:70px;flex-shrink:0;}
+.dna-bar-track{flex:1;height:4px;background:var(--surface2);border-radius:99px;overflow:hidden;}
+.dna-bar-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--amber),var(--gold));transform-origin:left;transform:scaleX(0);transition:transform 1.2s cubic-bezier(.4,0,.2,1);}
+.dna-bar-pct{font-size:.8rem;color:var(--gold);width:55px;text-align:right;flex-shrink:0;}
+
+/* TREE */
+.tree-section{background:var(--surface);}
+.tree-inner{max-width:1200px;margin:0 auto;}
+.tree-builder{display:grid;grid-template-columns:340px 1fr;gap:3rem;margin-top:4rem;}
+.tree-form{background:var(--surface2);border:1px solid var(--border);border-radius:4px;padding:2rem;}
+.form-field{margin-bottom:1.5rem;}
+.form-field label{display:block;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem;}
+.form-field input,.form-field select{width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:'DM Sans',sans-serif;font-size:.9rem;padding:.8rem 1rem;border-radius:2px;transition:border-color .3s;}
+.form-field input:focus,.form-field select:focus{outline:none;border-color:var(--gold);}
+.form-field select{height:120px;}
+.form-field select option{background:var(--surface2);}
+.btn-form{width:100%;background:var(--gold);border:none;color:var(--bg);font-family:'DM Sans',sans-serif;font-size:.85rem;letter-spacing:.1em;text-transform:uppercase;padding:.9rem;cursor:pointer;transition:all .3s;border-radius:2px;font-weight:500;}
+.btn-form:hover{background:var(--gold2);}
+.tree-display{overflow:auto;min-height:400px;}
+.tree-empty{display:flex;align-items:center;justify-content:center;height:100%;min-height:300px;color:var(--muted);font-size:.9rem;border:1px dashed var(--border);border-radius:4px;text-align:center;padding:2rem;}
+.tree-nodes{display:flex;flex-direction:column;gap:1rem;}
+.node-card{background:var(--surface2);border:1px solid var(--border);border-radius:4px;padding:1.2rem 1.5rem;display:flex;align-items:center;gap:1.5rem;transition:border-color .3s,transform .2s;position:relative;overflow:hidden;}
+.node-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--gold),var(--amber));}
+.node-card:hover{border-color:var(--gold);transform:translateX(4px);}
+.node-gen{width:40px;height:40px;border-radius:50%;border:1px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--gold);flex-shrink:0;}
+.node-info{flex:1;}.node-name{font-size:1rem;color:var(--cream);margin-bottom:.2rem;}.node-ru{font-size:.8rem;color:var(--muted);}
+.node-pct{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:var(--gold);}
+.add-form{background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:1.5rem;margin-top:1rem;display:none;}
+.add-form.visible{display:block;}
+.add-form h4{font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem;}
+.radio-group{display:flex;gap:1.5rem;margin:.8rem 0 1rem;flex-wrap:wrap;}
+.radio-opt{display:flex;align-items:center;gap:.4rem;font-size:.85rem;color:var(--muted);cursor:pointer;}
+.radio-opt input{accent-color:var(--gold);}
+.add-row{display:flex;gap:1rem;flex-wrap:wrap;}
+.add-row input{flex:1;min-width:130px;}
+.btn-add{background:transparent;border:1px solid var(--gold);color:var(--gold);font-family:'DM Sans',sans-serif;font-size:.85rem;padding:.8rem 1.5rem;cursor:pointer;transition:all .3s;border-radius:2px;}
+.btn-add:hover{background:var(--gold);color:var(--bg);}
+.tree-actions{display:flex;gap:.8rem;margin-top:1rem;flex-wrap:wrap;}
+.tree-actions button{background:transparent;border:1px solid var(--border);color:var(--muted);font-family:'DM Sans',sans-serif;font-size:.8rem;padding:.6rem 1.2rem;cursor:pointer;transition:all .3s;border-radius:2px;}
+.tree-actions button:hover{border-color:var(--gold);color:var(--gold);}
+
+/* SIM */
+.sim-section{background:var(--bg);}
+.sim-inner{max-width:900px;margin:0 auto;}
+.sim-stage{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:3rem;margin-top:3rem;}
+.sim-beakers{display:flex;align-items:flex-end;justify-content:center;gap:1.5rem;flex-wrap:wrap;margin-bottom:2.5rem;}
+.sim-beaker-col{display:flex;flex-direction:column;align-items:center;gap:.6rem;}
+.sim-beaker-label{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);}
+.sim-beaker-col svg{width:80px;height:150px;}
+.sim-pct-text{font-size:.85rem;color:var(--gold);font-weight:500;}
+.sim-op{font-size:2rem;color:var(--border);padding-bottom:4rem;}
+.sim-controls{display:flex;gap:1rem;justify-content:center;margin-bottom:2rem;flex-wrap:wrap;}
+.sim-btn{background:transparent;border:1px solid var(--border);color:var(--muted);font-family:'DM Sans',sans-serif;font-size:.85rem;padding:.8rem 2rem;cursor:pointer;transition:all .3s;border-radius:2px;}
+.sim-btn.go{border-color:var(--gold);color:var(--gold);}
+.sim-btn:hover{border-color:var(--gold);color:var(--gold);background:rgba(201,168,76,.05);}
+.sim-result{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:4px;overflow:hidden;}
+.sim-metric{background:var(--surface2);padding:1.5rem;text-align:center;}
+.sim-metric-label{font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:.5rem;}
+.sim-metric-val{font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:var(--cream);}
+.sim-metric-val.gold{color:var(--gold);}.sim-metric-val.warn{color:#e07b3a;}
+.sim-log{margin-top:1.5rem;max-height:200px;overflow-y:auto;}
+.sim-log-entry{font-size:.8rem;color:var(--muted);padding:.4rem 0;border-bottom:1px solid var(--border);display:flex;gap:1rem;align-items:center;}
+.sim-log-entry .dot{width:6px;height:6px;border-radius:50%;background:var(--gold);flex-shrink:0;}
+
+/* TRIBES */
+.tribes-section{background:var(--surface);}
+.tribes-inner{max-width:1200px;margin:0 auto;}
+.tribes-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:3rem;background:var(--border);border:1px solid var(--border);border-radius:4px;overflow:hidden;}
+.tribe-card{background:var(--surface2);padding:2rem;transition:background .3s;}
+.tribe-card:hover{background:rgba(201,168,76,.05);}
+.tribe-zhuz{font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:.5rem;}
+.tribe-name{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--cream);margin-bottom:.8rem;}
+.tribe-sub{display:flex;flex-wrap:wrap;gap:.4rem;}
+.tribe-tag{font-size:.75rem;padding:.25rem .7rem;border:1px solid var(--border);color:var(--muted);border-radius:99px;transition:all .2s;}
+.tribe-tag:hover{border-color:var(--gold);color:var(--gold);}
+
+/* TIMELINE */
+.timeline-section{background:var(--bg);}
+.timeline-inner{max-width:900px;margin:0 auto;}
+.timeline-list{margin-top:4rem;position:relative;}
+.timeline-list::before{content:'';position:absolute;left:28px;top:0;bottom:0;width:1px;background:linear-gradient(180deg,var(--gold),transparent);}
+.tl-item{display:flex;gap:2rem;margin-bottom:2rem;transition:transform .2s;cursor:default;}
+.tl-item:hover{transform:translateX(8px);}
+.tl-num{width:56px;height:56px;border-radius:50%;border:1px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--gold);flex-shrink:0;background:var(--bg);position:relative;z-index:1;}
+.tl-body{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:1.5rem;flex:1;transition:border-color .3s;}
+.tl-item:hover .tl-body{border-color:rgba(201,168,76,.4);}
+.tl-gen-label{font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:.3rem;}
+.tl-name{font-size:1.1rem;color:var(--cream);margin-bottom:.3rem;}
+.tl-sub{color:var(--muted);font-size:.85rem;}
+
+/* SLIDER */
+.slider-section{background:var(--surface);}
+.slider-inner{max-width:700px;margin:0 auto;text-align:center;}
+.slider-wrap{margin:3rem 0;}
+input[type=range]{-webkit-appearance:none;width:100%;height:2px;background:linear-gradient(90deg,var(--gold),var(--amber));outline:none;border-radius:99px;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:var(--bg);border:2px solid var(--gold);cursor:pointer;transition:transform .2s;}
+input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.3);}
+.slider-val{font-family:'Playfair Display',serif;font-size:5rem;font-weight:900;background:linear-gradient(135deg,var(--gold),var(--amber));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:1.5rem 0 .5rem;}
+.slider-desc{color:var(--muted);font-size:1rem;}
+.human-figure{width:80px;height:160px;margin:2rem auto;border-radius:40px 40px 20px 20px;border:1px solid var(--gold);transition:background .5s,opacity .5s;}
+
+/* FOOTER */
+footer{background:var(--surface);border-top:1px solid var(--border);padding:4rem 5%;text-align:center;}
+.footer-logo{font-family:'Playfair Display',serif;font-size:2rem;color:var(--gold);margin-bottom:1rem;}
+.footer-tagline{color:var(--muted);font-size:.85rem;letter-spacing:.1em;margin-bottom:2rem;}
+.footer-copy{font-size:.75rem;color:rgba(138,122,104,.5);}
+
+@media(max-width:900px){.dna-inner{grid-template-columns:1fr;}.tree-builder{grid-template-columns:1fr;}.tribes-grid{grid-template-columns:1fr;}.sim-result{grid-template-columns:1fr;}.hero-stats{gap:2rem;}nav a{display:none;}}
+</style>
+</head>
+<body data-lang="kk">
+
+<div class="cursor" id="cur"></div>
+<div class="cursor-ring" id="curRing"></div>
+
+<header>
+  <div class="logo">ЖЕТІ<span> АТА</span></div>
+  <nav>
+    <a href="#lab" class="kk">Лаборатория</a>
+    <a href="#lab" class="en">Lab</a>
+    <a href="#dna" class="kk">ДНҚ</a>
+    <a href="#dna" class="en">DNA</a>
+    <a href="#tree" class="kk">Шежіре</a>
+    <a href="#tree" class="en">Tree</a>
+    <a href="#tribes" class="kk">Рулар</a>
+    <a href="#tribes" class="en">Tribes</a>
+    <a href="#timeline" class="kk">Хронология</a>
+    <a href="#timeline" class="en">Timeline</a>
+    <button class="lang-btn" id="langBtn">EN</button>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-lines">
+    <div class="hero-line" style="animation-delay:0s"></div>
+    <div class="hero-line" style="animation-delay:2s"></div>
+    <div class="hero-line" style="animation-delay:4s"></div>
+  </div>
+  <div class="hero-content">
+    <p class="hero-eyebrow kk">Тарих · Генетика · Ру</p>
+    <p class="hero-eyebrow en">History · Genetics · Clan</p>
+    <h1 class="hero-title">
+      <span class="line1">ЖЕТІ АТА</span>
+      <span class="line2 kk">ГЕНЕТИКА</span>
+      <span class="line2 en">GENETICS</span>
+    </h1>
+    <p class="hero-sub kk">7 буын дәстүрі мен генетика ғылымы — интерактивті зерттеу</p>
+    <p class="hero-sub en">7 generations tradition meets genetics — an interactive journey</p>
+    <a href="#lab" class="hero-cta">
+      <span class="kk">Зерттеуді бастау</span>
+      <span class="en">Begin Exploration</span>
+      <span class="arrow">→</span>
+    </a>
+  </div>
+  <div class="hero-stats">
+    <div class="stat"><span class="stat-num">7</span><span class="stat-label kk">Буын</span><span class="stat-label en">Generations</span></div>
+    <div class="stat"><span class="stat-num">50%</span><span class="stat-label kk">Ген үлесі</span><span class="stat-label en">Gene share</span></div>
+    <div class="stat"><span class="stat-num">3</span><span class="stat-label kk">Жүз</span><span class="stat-label en">Zhuz</span></div>
+  </div>
+</section>
+<style>
+.hero{flex-direction:column;gap:2rem;}
+.hero-stats{position:static;transform:none;white-space:normal;}
+</style>
+<hr class="divider">
+
+<section class="lab-section" id="lab">
+  <div class="lab-inner">
+    <div class="lab-header reveal">
+      <div>
+        <p class="sec-label kk">Генетика лабораториясы</p>
+        <p class="sec-label en">Genetics Laboratory</p>
+        <h2 class="sec-title kk">Түстер<br>Арқылы Ген</h2>
+        <h2 class="sec-title en">Genetics<br>Through Color</h2>
+      </div>
+      <p class="sec-sub kk">Әр буын сайын генетикалық материал жартыланады. Колбалардағы түстердің өзгерісін бақылаңыз.</p>
+      <p class="sec-sub en">Each generation, genetic material halves. Watch colors change in the beakers to visualize this.</p>
+    </div>
+    <div class="beakers-stage reveal" id="beakersStage"></div>
+    <div class="lab-controls reveal">
+      <button class="btn-lab accent" id="labMixBtn"><span class="kk">▶ Aralas</span><span class="en">▶ Mix</span></button>
+      <button class="btn-lab" id="labResetBtn"><span class="kk">↺ Қайта</span><span class="en">↺ Reset</span></button>
+    </div>
+    <div class="lab-result reveal">
+      <div class="result-swatch" id="labSwatch" style="background:#8B4513"></div>
+      <div class="result-info">
+        <div class="result-name" id="labColorName">Қоңыр</div>
+        <div class="result-desc" id="labGenName">1-буын: Сен</div>
+      </div>
+      <div class="result-pct-big" id="labPct">100%</div>
+    </div>
+    <div class="gen-history reveal" id="genHistory"></div>
+  </div>
+</section>
+<hr class="divider">
+
+<section class="dna-section" id="dna">
+  <div class="dna-inner">
+    <div class="dna-canvas-wrap reveal">
+      <canvas id="dnaCanvas" width="350" height="400"></canvas>
+    </div>
+    <div class="reveal" style="transition-delay:.2s">
+      <p class="sec-label kk">Генетикалық мұра</p>
+      <p class="sec-label en">Genetic heritage</p>
+      <h2 class="sec-title kk">ДНҚ<br>Спиралы</h2>
+      <h2 class="sec-title en">DNA<br>Helix</h2>
+      <p class="sec-sub kk" style="margin-bottom:2rem">Ата-бабаларыңнан мұра болып қалатын ДНҚ үлесі буын сайын азаяды.</p>
+      <p class="sec-sub en" style="margin-bottom:2rem">The share of DNA inherited from ancestors decreases with each generation.</p>
+      <div class="dna-bars" id="dnaBars"></div>
+    </div>
+  </div>
+</section>
+<hr class="divider">
+
+<section class="tree-section" id="tree">
+  <div class="tree-inner">
+    <div class="reveal">
+      <p class="sec-label kk">Интерактивті шежіре</p>
+      <p class="sec-label en">Interactive genealogy</p>
+      <h2 class="sec-title kk">Өз Шежіреңді<br>Жаса</h2>
+      <h2 class="sec-title en">Build Your<br>Family Tree</h2>
+    </div>
+    <div class="tree-builder">
+      <div class="tree-form reveal">
+        <div class="form-field">
+          <label class="kk">Атыңыз</label><label class="en">Your name</label>
+          <input type="text" id="treeUserName" placeholder="Арман" value="Арман">
+        </div>
+        <div class="form-field">
+          <label class="kk">Руыңыз</label><label class="en">Your clan</label>
+          <select id="treeUserRu">
+            <optgroup label="— Ұлы жүз —">
+              <option value="Ұлы жүз · Дулат">Дулат</option>
+              <option value="Ұлы жүз · Албан">Албан</option>
+              <option value="Ұлы жүз · Суан">Суан</option>
+              <option value="Ұлы жүз · Шапырашты">Шапырашты</option>
+              <option value="Ұлы жүз · Ысты">Ысты</option>
+            </optgroup>
+            <optgroup label="— Орта жүз —">
+              <option value="Орта жүз · Арғын">Арғын</option>
+              <option value="Орта жүз · Найман">Найман</option>
+              <option value="Орта жүз · Қыпшақ">Қыпшақ</option>
+              <option value="Орта жүз · Қоңырат">Қоңырат</option>
+              <option value="Орта жүз · Керей">Керей</option>
+              <option value="Орта жүз · Уақ">Уақ</option>
+            </optgroup>
+            <optgroup label="— Кіші жүз —">
+              <option value="Кіші жүз · Әлімұлы">Әлімұлы</option>
+              <option value="Кіші жүз · Байұлы">Байұлы</option>
+              <option value="Кіші жүз · Жетіру">Жетіру</option>
+            </optgroup>
+          </select>
+        </div>
+        <button class="btn-form" id="treeStartBtn">
+          <span class="kk">Шежірені бастау</span><span class="en">Start Tree</span>
+        </button>
+        <div class="add-form" id="addForm">
+          <h4 class="kk">Ұрпақ қосу</h4><h4 class="en">Add generation</h4>
+          <div class="form-field" style="margin-bottom:.8rem">
+            <input type="text" id="childNameInput" placeholder="Ат...">
+          </div>
+          <div class="radio-group">
+            <label class="radio-opt"><input type="radio" name="ruMode" value="father" checked><span class="kk">Әкесінің руы</span><span class="en">Father's clan</span></label>
+            <label class="radio-opt"><input type="radio" name="ruMode" value="mother"><span class="kk">Шешесінің руы</span><span class="en">Mother's clan</span></label>
+          </div>
+          <div class="add-row">
+            <input type="text" id="childRuInput" placeholder="Немесе ру жаз...">
+            <button class="btn-add" id="addChildBtn"><span class="kk">Қосу</span><span class="en">Add</span></button>
+          </div>
+        </div>
+      </div>
+      <div class="tree-display">
+        <div class="tree-empty" id="treeEmpty">
+          <span class="kk">Атыңызды жазып, шежірені бастаңыз →</span>
+          <span class="en">Enter your name and start the tree →</span>
+        </div>
+        <div class="tree-nodes" id="treeNodes" style="display:none"></div>
+        <div class="tree-actions" id="treeActions" style="display:none">
+          <button id="showAddBtn"><span class="kk">+ Ұрпақ қосу</span><span class="en">+ Add generation</span></button>
+          <button id="clearTreeBtn"><span class="kk">↺ Тазалау</span><span class="en">↺ Clear</span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<hr class="divider">
+
+<style>
+/* ── CHILD SIMULATOR ── */
+.csim-section{background:var(--bg);}
+.csim-inner{max-width:1000px;margin:0 auto;}
+.csim-stage{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:3rem;margin-top:3rem;}
+
+/* Колбалар */
+.csim-row{display:flex;align-items:flex-end;justify-content:center;gap:1rem;flex-wrap:wrap;margin-bottom:2rem;}
+.csim-col{display:flex;flex-direction:column;align-items:center;gap:.5rem;}
+.csim-lbl{font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);}
+.csim-svg{width:70px;height:130px;}
+.csim-pct{font-size:.82rem;color:var(--gold);font-weight:500;}
+.csim-op{font-size:1.8rem;color:var(--border);padding-bottom:3rem;}
+.csim-arrow{display:flex;flex-direction:column;align-items:center;padding-bottom:2.5rem;gap:.3rem;}
+.csim-arrow svg{animation:pulse 1.5s infinite;}
+@keyframes pulse{0%,100%{opacity:.5;transform:scaleY(1);}50%{opacity:1;transform:scaleY(1.2);}}
+.csim-tag{font-size:.68rem;background:rgba(201,168,76,.12);border:1px solid var(--border);color:var(--gold);padding:.15rem .7rem;border-radius:99px;}
+
+/* Бала фигурасы */
+.child-figure-wrap{display:flex;flex-direction:column;align-items:center;gap:.8rem;margin:2rem 0;}
+.child-figure{position:relative;display:flex;flex-direction:column;align-items:center;gap:0;}
+.child-head{width:48px;height:48px;border-radius:50%;border:2px solid var(--gold);transition:background 1s;position:relative;overflow:hidden;}
+.child-head::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.15) 0%,transparent 60%);}
+.child-body{width:36px;height:64px;border-radius:8px 8px 4px 4px;border:2px solid var(--gold);border-top:none;transition:background 1s;margin-top:2px;position:relative;overflow:hidden;}
+.child-body::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.1) 0%,transparent 60%);}
+.child-l-arm,.child-r-arm{width:10px;height:44px;border-radius:5px;border:2px solid var(--gold);transition:background 1s;position:absolute;top:10px;}
+.child-l-arm{left:-14px;transform:rotate(8deg);}
+.child-r-arm{right:-14px;transform:rotate(-8deg);}
+.child-l-leg,.child-r-leg{width:14px;height:50px;border-radius:5px;border:2px solid var(--gold);transition:background 1s;position:absolute;bottom:-54px;}
+.child-l-leg{left:2px;transform:rotate(5deg);}
+.child-r-leg{right:2px;transform:rotate(-5deg);}
+.child-wrap{position:relative;width:80px;height:180px;}
+.child-glow{position:absolute;inset:-10px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,.15) 0%,transparent 70%);animation:glowPulse 2s infinite;}
+@keyframes glowPulse{0%,100%{opacity:.4;}50%{opacity:1;}}
+.child-pct-big{font-family:'Playfair Display',serif;font-size:3rem;font-weight:900;background:linear-gradient(135deg,var(--gold),var(--amber));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.child-desc{font-size:.85rem;color:var(--muted);text-align:center;max-width:280px;line-height:1.5;}
+
+/* Буын жолағы */
+.gen-track{display:flex;gap:.4rem;justify-content:center;margin:1.5rem 0;flex-wrap:wrap;}
+.gen-dot{width:32px;height:32px;border-radius:50%;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.75rem;color:var(--muted);transition:all .4s;cursor:default;}
+.gen-dot.done{background:var(--muted);color:var(--surface2);border-color:var(--muted);}
+.gen-dot.active{border-color:var(--gold);color:var(--gold);box-shadow:0 0 12px rgba(201,168,76,.4);}
+.gen-dot.warn{border-color:#e07b3a;color:#e07b3a;box-shadow:0 0 12px rgba(224,123,58,.4);}
+
+/* Нәтиже панел */
+.csim-panel{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-top:1.5rem;}
+.csim-metric{background:var(--surface2);padding:1.2rem;text-align:center;}
+.csim-metric-lbl{font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:.4rem;}
+.csim-metric-val{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;color:var(--cream);}
+.csim-metric-val.g{color:var(--gold);}.csim-metric-val.w{color:#e07b3a;}
+
+/* Лог */
+.csim-log{margin-top:1.2rem;max-height:180px;overflow-y:auto;}
+.csim-log-row{font-size:.78rem;color:var(--muted);padding:.35rem 0;border-bottom:1px solid var(--border);display:flex;gap:.8rem;align-items:flex-start;}
+.csim-log-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);flex-shrink:0;margin-top:.3rem;}
+.csim-log-dot.w{background:#e07b3a;}
+
+/* Батырмалар */
+.csim-controls{display:flex;gap:1rem;justify-content:center;margin:1.5rem 0;flex-wrap:wrap;}
+.csim-btn{background:transparent;border:1px solid var(--border);color:var(--muted);font-family:'DM Sans',sans-serif;font-size:.85rem;padding:.75rem 1.8rem;cursor:pointer;transition:all .3s;border-radius:2px;}
+.csim-btn.go{border-color:var(--gold);color:var(--gold);}
+.csim-btn:hover{border-color:var(--gold);color:var(--gold);background:rgba(201,168,76,.05);}
+.csim-btn:disabled{opacity:.3;cursor:not-allowed;}
+
+/* Warn badge */
+.warn-badge{display:none;background:rgba(224,123,58,.1);border:1px solid rgba(224,123,58,.4);color:#e07b3a;padding:.8rem 1.5rem;border-radius:4px;font-size:.85rem;text-align:center;margin-top:1rem;line-height:1.6;}
+.warn-badge.show{display:block;}
+
+@media(max-width:600px){.csim-panel{grid-template-columns:1fr;}.csim-row{gap:.5rem;}.csim-svg{width:55px;height:100px;}}
+</style>
+
+<section class="csim-section" id="csim">
+  <div class="csim-inner">
+    <div class="reveal">
+      <p class="sec-label kk">Бала анимациясы</p>
+      <p class="sec-label en">Child animation</p>
+      <h2 class="sec-title kk">Бала + 5 Буын +<br>2 Рет Қосылу</h2>
+      <h2 class="sec-title en">Child + 5 Generations +<br>2 Relative Joins</h2>
+      <p class="sec-sub kk">Әке мен ананың генінен туған балаға 5 буын өткен соң 2 рет туыс қосылса — ортақ ген қанша болады?</p>
+      <p class="sec-sub en">If a child born from father & mother has 2 relative joins after 5 generations — how much shared DNA remains?</p>
+    </div>
+
+    <div class="csim-stage reveal">
+
+      <!-- Колбалар + бала -->
+      <div class="csim-row" id="csimBeakers">
+        <!-- JS толтырады -->
+      </div>
+
+      <!-- Бала фигурасы -->
+      <div class="child-figure-wrap">
+        <div class="child-wrap">
+          <div class="child-glow"></div>
+          <div class="child-figure" id="childFigure" style="position:absolute;left:50%;transform:translateX(-50%);top:10px;">
+            <div class="child-head" id="childHead" style="background:#8B4513"></div>
+            <div style="position:relative;">
+              <div class="child-l-arm" id="childLArm" style="background:#8B4513"></div>
+              <div class="child-body" id="childBody" style="background:#8B4513"></div>
+              <div class="child-r-arm" id="childRArm" style="background:#8B4513"></div>
+              <div class="child-l-leg" id="childLLeg" style="background:#8B4513"></div>
+              <div class="child-r-leg" id="childRLeg" style="background:#8B4513"></div>
+            </div>
+          </div>
+        </div>
+        <div class="child-pct-big" id="childPctBig">100%</div>
+        <div class="child-desc kk" id="childDescKk">Бастапқы жағдай — ген толық</div>
+        <div class="child-desc en" id="childDescEn">Initial state — full genes</div>
+      </div>
+
+      <!-- Буын трекері -->
+      <div class="gen-track" id="genTrack"></div>
+
+      <!-- Батырмалар -->
+      <div class="csim-controls">
+        <button class="csim-btn go" id="csimPlayBtn">
+          <span class="kk">▶ Келесі кезең</span><span class="en">▶ Next step</span>
+        </button>
+        <button class="csim-btn" id="csimAutoBtn">
+          <span class="kk">⚡ Авто</span><span class="en">⚡ Auto</span>
+        </button>
+        <button class="csim-btn" id="csimResetBtn">
+          <span class="kk">↺ Қайта</span><span class="en">↺ Reset</span>
+        </button>
+      </div>
+
+      <!-- Ескерту -->
+      <div class="warn-badge" id="warnBadge">
+        ⚠ <span class="kk">Туыс қосылды! Ортақ ген артты — бұл инбридинг белгісі!</span>
+        <span class="en">Relative joined! Shared DNA increased — this is a sign of inbreeding!</span>
+      </div>
+
+      <!-- Нәтиже панел -->
+      <div class="csim-panel">
+        <div class="csim-metric">
+          <div class="csim-metric-lbl kk">Кезең</div><div class="csim-metric-lbl en">Step</div>
+          <div class="csim-metric-val" id="csimStep">0</div>
+        </div>
+        <div class="csim-metric">
+          <div class="csim-metric-lbl kk">Ортақ ген</div><div class="csim-metric-lbl en">Shared DNA</div>
+          <div class="csim-metric-val g" id="csimDna">100%</div>
+        </div>
+        <div class="csim-metric">
+          <div class="csim-metric-lbl kk">Жағдай</div><div class="csim-metric-lbl en">Status</div>
+          <div class="csim-metric-val" id="csimStatus" style="font-size:1rem">—</div>
+        </div>
+      </div>
+
+      <div class="csim-log" id="csimLog"></div>
+    </div>
+  </div>
+</section>
+<hr class="divider">
+
+<section class="tribes-section" id="tribes">
+  <div class="tribes-inner">
+    <div class="reveal">
+      <p class="sec-label kk">Қазақ рулары</p><p class="sec-label en">Kazakh clans</p>
+      <h2 class="sec-title kk">Үш Жүз</h2><h2 class="sec-title en">Three Zhuz</h2>
+    </div>
+    <div class="tribes-grid reveal">
+      <div class="tribe-card">
+        <div class="tribe-zhuz kk">Ұлы жүз</div><div class="tribe-zhuz en">Elder Zhuz</div>
+        <div class="tribe-name kk">Ұлы жүз</div><div class="tribe-name en">Elder Zhuz</div>
+        <div class="tribe-sub"><span class="tribe-tag">Дулат</span><span class="tribe-tag">Албан</span><span class="tribe-tag">Суан</span><span class="tribe-tag">Сарыүйсін</span><span class="tribe-tag">Шапырашты</span><span class="tribe-tag">Ошақты</span><span class="tribe-tag">Ысты</span></div>
+      </div>
+      <div class="tribe-card">
+        <div class="tribe-zhuz kk">Орта жүз</div><div class="tribe-zhuz en">Middle Zhuz</div>
+        <div class="tribe-name kk">Орта жүз</div><div class="tribe-name en">Middle Zhuz</div>
+        <div class="tribe-sub"><span class="tribe-tag">Арғын</span><span class="tribe-tag">Найман</span><span class="tribe-tag">Қыпшақ</span><span class="tribe-tag">Қоңырат</span><span class="tribe-tag">Керей</span><span class="tribe-tag">Уақ</span></div>
+      </div>
+      <div class="tribe-card">
+        <div class="tribe-zhuz kk">Кіші жүз</div><div class="tribe-zhuz en">Junior Zhuz</div>
+        <div class="tribe-name kk">Кіші жүз</div><div class="tribe-name en">Junior Zhuz</div>
+        <div class="tribe-sub"><span class="tribe-tag">Әлімұлы</span><span class="tribe-tag">Байұлы</span><span class="tribe-tag">Жетіру</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+<hr class="divider">
+
+<section class="timeline-section" id="timeline">
+  <div class="timeline-inner">
+    <div class="reveal">
+      <p class="sec-label kk">7 буын хронологиясы</p><p class="sec-label en">7 generations timeline</p>
+      <h2 class="sec-title kk">Ата-Баба<br>Жолы</h2><h2 class="sec-title en">Ancestral<br>Path</h2>
+    </div>
+    <div class="timeline-list reveal" id="timelineList"></div>
+  </div>
+</section>
+<hr class="divider">
+
+<section class="slider-section">
+  <div class="slider-inner">
+    <div class="reveal">
+      <p class="sec-label kk" style="text-align:center">Виртуалды эксперимент</p>
+      <p class="sec-label en" style="text-align:center">Virtual experiment</p>
+      <h2 class="sec-title kk" style="text-align:center">Буынды Сез</h2>
+      <h2 class="sec-title en" style="text-align:center">Feel the Generation</h2>
+    </div>
+    <div class="slider-wrap reveal"><input type="range" min="1" max="8" value="1" id="genSlider" step="1"></div>
+    <div class="reveal" style="transition-delay:.2s">
+      <div class="human-figure" id="humanFig"></div>
+      <div class="slider-val" id="sliderVal">100%</div>
+      <div class="slider-desc" id="sliderDesc">1-буын: Сен</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">ЖЕТІ АТА</div>
+  <div class="footer-tagline kk">Тарих · Генетика · Мұра</div>
+  <div class="footer-tagline en">History · Genetics · Heritage</div>
+  <div class="footer-copy">© 2025 Жеті Ата</div>
+</footer>
+
+<script>
+(function(){
+// CURSOR
+const cur=document.getElementById('cur'),crg=document.getElementById('curRing');
+document.addEventListener('mousemove',e=>{
+  const x=e.clientX+'px',y=e.clientY+'px';
+  cur.style.left=x;cur.style.top=y;crg.style.left=x;crg.style.top=y;
+});
+
+// LANGUAGE
+let lang='kk';
+document.getElementById('langBtn').addEventListener('click',()=>{
+  lang=lang==='kk'?'en':'kk';
+  document.body.setAttribute('data-lang',lang);
+  document.getElementById('langBtn').textContent=lang==='kk'?'EN':'ҚАЗ';
+  buildLab();renderCsim();updateSlider();
+});
+
+// REVEAL
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// DATA
+const GENS=[
+  {kk:'Сен',      en:'You',         col:'#8B4513',pct:100,    ckk:'Қоңыр',      cen:'Brown'},
+  {kk:'Ата/Әже',  en:'Grandparent', col:'#8B5A2B',pct:50,     ckk:'Ашық қоңыр', cen:'Light brown'},
+  {kk:'Арғы ата', en:'2nd gen',     col:'#BC8F4F',pct:25,     ckk:'Сары қоңыр', cen:'Sandy brown'},
+  {kk:'Шөбере',   en:'3rd gen',     col:'#D2B48C',pct:12.5,   ckk:'Бежевый',    cen:'Beige'},
+  {kk:'Шөпшек',   en:'4th gen',     col:'#E8D5B0',pct:6.25,   ckk:'Ашық беж',   cen:'Light beige'},
+  {kk:'Немене',   en:'5th gen',     col:'#F0E0C0',pct:3.125,  ckk:'Крем',        cen:'Cream'},
+  {kk:'Туажат',   en:'6th gen',     col:'#F8EDD8',pct:1.5625, ckk:'Ашық крем',  cen:'Off-cream'},
+  {kk:'Жұрағат',  en:'7th gen',     col:'#FFFBF4',pct:0.7813, ckk:'Аппақ',       cen:'White'},
+];
+const LC=[
+  ['#8B4513','#A0522D','#8B4513'],['#8B5A2B','#CD853F','#8B5A2B'],
+  ['#BC8F4F','#DEB887','#BC8F4F'],['#D2B48C','#F4A460','#D2B48C'],
+  ['#E8D5B0','#FFE4C4','#E8D5B0'],['#F0E0C0','#FAF0E6','#F0E0C0'],
+  ['#F8EDD8','#FFFCF5','#F8EDD8'],['#FFFBF4','#FFFFFF','#FFFBF4'],
+];
+
+// LAB
+let labStep=0,labTmr=null;
+function bkSVG(color,fp,label){
+  const h=80,fy=Math.round(20+(h*(1-fp/100)));
+  return `<div class="beaker-col"><div class="beaker-title">${label}</div><div class="beaker"><svg viewBox="0 0 70 140" xmlns="http://www.w3.org/2000/svg"><rect x="10" y="5" width="50" height="12" rx="3" fill="#444" opacity=".5"/><rect x="10" y="17" width="50" height="95" rx="2" fill="rgba(255,255,255,.03)" stroke="rgba(201,168,76,.3)" stroke-width="1.5"/><rect x="10" y="${fy}" width="50" height="${h*fp/100}" rx="2" fill="${color}" opacity=".9"/><rect x="10" y="17" width="50" height="95" rx="2" fill="none" stroke="rgba(201,168,76,.4)" stroke-width="1"/></svg></div><div class="beaker-pct">${fp}%</div></div>`;
+}
+function buildLab(){
+  const g=GENS[labStep],c=LC[labStep],p=g.pct.toFixed(2);
+  const lbl=lang==='kk'?{l:'Әке',r:'Ана',b:'Бала'}:{l:'Father',r:'Mother',b:'Child'};
+  document.getElementById('beakersStage').innerHTML=
+    bkSVG(c[0],50,lbl.l)+`<div class="op-symbol">+</div>`+bkSVG(c[1],50,lbl.r)+
+    `<div class="result-arrow"><svg width="30" height="40" viewBox="0 0 30 40"><path d="M15 0L15 28M7 20L15 32L23 20" stroke="#c9a84c" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="result-pct-sm">${p}%</span></div>`+
+    bkSVG(c[2],Math.min(100,Math.round(g.pct)),lbl.b);
+  document.getElementById('labSwatch').style.background=c[2];
+  document.getElementById('labColorName').textContent=lang==='kk'?g.ckk:g.cen;
+  document.getElementById('labGenName').textContent=lang==='kk'?`${labStep+1}-буын: ${g.kk}`:`Gen ${labStep+1}: ${g.en}`;
+  document.getElementById('labPct').textContent=p+'%';
+  let ph='';
+  for(let i=0;i<GENS.length;i++){
+    ph+=`<span class="gen-pill${i<labStep?' done':i===labStep?' active':''}">${i+1}</span>`;
+  }
+  document.getElementById('genHistory').innerHTML=ph;
+}
+document.getElementById('labMixBtn').addEventListener('click',()=>{
+  if(labTmr)clearInterval(labTmr);labStep=0;
+  labTmr=setInterval(()=>{buildLab();labStep++;if(labStep>=GENS.length){clearInterval(labTmr);labStep=GENS.length-1;}},1400);
+});
+document.getElementById('labResetBtn').addEventListener('click',()=>{if(labTmr)clearInterval(labTmr);labStep=0;buildLab();});
+buildLab();
+
+// DNA
+const ctx=document.getElementById('dnaCanvas').getContext('2d');
+let ang=0;
+(function loop(){
+  ctx.clearRect(0,0,350,400);
+  const cx=175,pts=14,step=400/pts;
+  for(let i=0;i<pts;i++){
+    const y=i*step+step/2,xo=Math.sin(ang+i*.5)*80,al=.3+(i/pts)*.7;
+    ctx.beginPath();ctx.arc(cx+xo,y,6,0,Math.PI*2);ctx.fillStyle=`rgba(201,168,76,${al})`;ctx.fill();
+    ctx.beginPath();ctx.arc(cx-xo,y,6,0,Math.PI*2);ctx.fillStyle=`rgba(212,120,26,${al})`;ctx.fill();
+    if(i>0){ctx.beginPath();ctx.moveTo(cx+xo,y);ctx.lineTo(cx-xo,y);ctx.strokeStyle=`rgba(201,168,76,${al*.4})`;ctx.lineWidth=1;ctx.stroke();}
+  }
+  ang+=.025;requestAnimationFrame(loop);
+})();
+const dnaEl=document.getElementById('dnaBars');
+GENS.forEach((g,i)=>{
+  dnaEl.innerHTML+=`<div class="dna-bar-row"><div class="dna-bar-label">${g.kk}</div><div class="dna-bar-track"><div class="dna-bar-fill" id="db${i}"></div></div><div class="dna-bar-pct">${g.pct.toFixed(2)}%</div></div>`;
+});
+setTimeout(()=>GENS.forEach((g,i)=>{const el=document.getElementById('db'+i);if(el){el.style.transform='scaleX(1)';el.style.width=g.pct+'%';}}),600);
+
+// TREE
+let tD=[];
+const tEmpty=document.getElementById('treeEmpty'),tNodes=document.getElementById('treeNodes'),tActs=document.getElementById('treeActions'),aForm=document.getElementById('addForm');
+function renderTree(){
+  if(!tD.length){tEmpty.style.display='flex';tNodes.style.display='none';tActs.style.display='none';aForm.classList.remove('visible');return;}
+  tEmpty.style.display='none';tNodes.style.display='flex';tActs.style.display='flex';
+  tNodes.innerHTML=tD.map((p,i)=>`<div class="node-card"><div class="node-gen">${i+1}</div><div class="node-info"><div class="node-name">${p.name}</div><div class="node-ru">${p.ru}</div></div><div class="node-pct">${(100/Math.pow(2,i)).toFixed(2)}%</div></div>`).join('');
+}
+document.getElementById('treeStartBtn').addEventListener('click',()=>{
+  const name=document.getElementById('treeUserName').value.trim()||'Арман';
+  tD=[{name,ru:document.getElementById('treeUserRu').value}];renderTree();aForm.classList.add('visible');
+});
+document.getElementById('showAddBtn').addEventListener('click',()=>aForm.classList.add('visible'));
+document.getElementById('addChildBtn').addEventListener('click',()=>{
+  if(tD.length>=8){alert(lang==='kk'?'8 буын толды!':'8 generations reached!');return;}
+  const name=document.getElementById('childNameInput').value.trim();
+  if(!name){alert(lang==='kk'?'Атын жазыңыз!':'Enter name!');return;}
+  const mode=document.querySelector('input[name="ruMode"]:checked').value;
+  const cr=document.getElementById('childRuInput').value.trim();
+  let ru=cr||tD[tD.length-1].ru;
+  if(mode==='mother'&&!cr){const opts=['Орта жүз · Найман','Ұлы жүз · Дулат','Кіші жүз · Байұлы'];ru=opts[Math.floor(Math.random()*opts.length)];}
+  tD.push({name,ru});
+  document.getElementById('childNameInput').value='';document.getElementById('childRuInput').value='';
+  renderTree();
+});
+document.getElementById('clearTreeBtn').addEventListener('click',()=>{tD=[];renderTree();});
+
+// CHILD SIMULATOR
+const CSTEPS=[
+  {kk:'Бастапқы',       en:'Initial',         lC:'#8B4513',rC:'#A0522D',resC:'#8B4513',dna:100,  nkk:'Әке + Ана колбасы дайын',              nen:'Father + Mother beakers ready',        warn:false},
+  {kk:'Бала туды',      en:'Child born',       lC:'#8B4513',rC:'#A0522D',resC:'#8B4513',dna:100,  nkk:'Бала туды — ген 100% толық',            nen:'Child born — 100% full genes',         warn:false},
+  {kk:'1-буын',         en:'Gen 1',            lC:'#8B5A2B',rC:'#CD853F',resC:'#8B5A2B',dna:50,   nkk:'1-буын: ген жартыланды → 50%',          nen:'Gen 1: DNA halved → 50%',              warn:false},
+  {kk:'2-буын',         en:'Gen 2',            lC:'#BC8F4F',rC:'#DEB887',resC:'#BC8F4F',dna:25,   nkk:'2-буын: ген тағы жартыланды → 25%',     nen:'Gen 2: DNA halved again → 25%',        warn:false},
+  {kk:'3-буын',         en:'Gen 3',            lC:'#D2B48C',rC:'#F4A460',resC:'#D2B48C',dna:12.5, nkk:'3-буын: → 12.5%',                       nen:'Gen 3: → 12.5%',                      warn:false},
+  {kk:'4-буын',         en:'Gen 4',            lC:'#E8D5B0',rC:'#FFE4C4',resC:'#E8D5B0',dna:6.25, nkk:'4-буын: → 6.25%',                       nen:'Gen 4: → 6.25%',                      warn:false},
+  {kk:'5-буын',         en:'Gen 5',            lC:'#F0E0C0',rC:'#FAF0E6',resC:'#F0E0C0',dna:3.125,nkk:'5-буын өтті — туыс қосылуға дайын',    nen:'5 gens passed — ready for relative join',warn:false},
+  {kk:'⚠ 1-қосылу',    en:'⚠ Join 1',         lC:'#F0E0C0',rC:'#BC8F4F',resC:'#D4A55A',dna:9.375,nkk:'Туыс қосылды! Ген 3.125+6.25 = 9.375%', nen:'Relative joined! DNA 3.125+6.25=9.375%',warn:true},
+  {kk:'6-буын',         en:'Gen 6',            lC:'#D4A55A',rC:'#FFFCF5',resC:'#E8D5B0',dna:4.6875,nkk:'6-буын: ген жартыланды → 4.6875%',    nen:'Gen 6: halved → 4.6875%',             warn:false},
+  {kk:'⚠ 2-қосылу',    en:'⚠ Join 2',         lC:'#E8D5B0',rC:'#D2B48C',resC:'#C8A050',dna:10.9375,nkk:'2-рет туыс қосылды! Ген артты: 10.9375%',nen:'2nd relative join! DNA: 10.9375%',  warn:true},
+  {kk:'Қорытынды',      en:'Final',            lC:'#C8A050',rC:'#C8A050',resC:'#C8A050',dna:10.9375,nkk:'Нәтиже: 2 рет туыс қосылса ген 10.9%+',nen:'Result: 2 relative joins → DNA 10.9%+',warn:true},
+];
+
+const BODY_COLORS=['#8B4513','#8B4513','#8B5A2B','#BC8F4F','#D2B48C','#E8D5B0','#F0E0C0','#F0E0C0','#D4A55A','#E8D5B0','#C8A050','#C8A050'];
+
+let cStep=0,autoTmr=null;
+
+function beakerSmSVG(color,fp,lbl){
+  const h=70,fy=Math.round(15+(h*(1-Math.min(fp,100)/100)));
+  return `<div class="csim-col">
+    <div class="csim-lbl">${lbl}</div>
+    <svg class="csim-svg" viewBox="0 0 70 130" xmlns="http://www.w3.org/2000/svg">
+      <rect x="10" y="5" width="50" height="10" rx="2" fill="#444" opacity=".5"/>
+      <rect x="10" y="15" width="50" height="${h}" rx="2" fill="rgba(255,255,255,.02)" stroke="rgba(201,168,76,.25)" stroke-width="1.5"/>
+      <rect x="10" y="${fy}" width="50" height="${Math.max(0,h*Math.min(fp,100)/100)}" rx="2" fill="${color}" opacity=".9"/>
+      <rect x="10" y="15" width="50" height="${h}" rx="2" fill="none" stroke="rgba(201,168,76,.4)" stroke-width="1"/>
+    </svg>
+    <div class="csim-pct">${typeof fp==='number'?fp.toFixed(1)+'%':fp}</div>
+  </div>`;
+}
+
+function updateChildColor(col){
+  ['childHead','childBody','childLArm','childRArm','childLLeg','childRLeg'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el)el.style.background=col;
+  });
+}
+
+function buildGenTrack(){
+  const tr=document.getElementById('genTrack');
+  tr.innerHTML='';
+  for(let i=0;i<CSTEPS.length;i++){
+    const s=CSTEPS[i];
+    let cls='gen-dot';
+    if(i<cStep)cls+=' done';
+    else if(i===cStep)cls+=s.warn?' warn':' active';
+    tr.innerHTML+=`<div class="${cls}" title="${lang==='kk'?s.kk:s.en}">${i}</div>`;
+  }
+}
+
+function renderCsim(){
+  const s=CSTEPS[cStep];
+  const l=lang==='kk';
+  const lbl={left:l?'Әке':'Father',right:l?'Ана/Жұбай':'Mother/Spouse',res:l?'Бала':'Child'};
+
+  // Колбалар
+  const pct=Math.min(s.dna,100);
+  document.getElementById('csimBeakers').innerHTML=
+    beakerSmSVG(s.lC,pct,lbl.left)+
+    `<div class="csim-op">+</div>`+
+    beakerSmSVG(s.rC,pct,lbl.right)+
+    `<div class="csim-arrow">
+      <svg width="28" height="36" viewBox="0 0 28 36"><path d="M14 0L14 26M6 18L14 30L22 18" stroke="${s.warn?'#e07b3a':'#c9a84c'}" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span class="csim-tag" style="${s.warn?'border-color:#e07b3a;color:#e07b3a;background:rgba(224,123,58,.1);':''}">${s.dna.toFixed(4)}%</span>
+    </div>`+
+    beakerSmSVG(s.resC,pct,l?'Бала':'Child');
+
+  // Бала
+  updateChildColor(BODY_COLORS[cStep]||'#FFFBF4');
+  document.getElementById('childPctBig').textContent=s.dna.toFixed(2)+'%';
+  document.getElementById('childDescKk').textContent=s.nkk;
+  document.getElementById('childDescEn').textContent=s.nen;
+
+  // Буын трекері
+  buildGenTrack();
+
+  // Панел
+  document.getElementById('csimStep').textContent=cStep;
+  document.getElementById('csimDna').textContent=s.dna.toFixed(4)+'%';
+  const st=document.getElementById('csimStatus');
+  if(s.warn){st.textContent=l?'⚠ Туыс!':'⚠ Related!';st.className='csim-metric-val w';}
+  else{st.textContent=l?'Норма':'Normal';st.className='csim-metric-val';}
+
+  // Warn badge
+  const badge=document.getElementById('warnBadge');
+  if(s.warn)badge.classList.add('show');
+  else if(cStep===0)badge.classList.remove('show');
+
+  // Лог
+  const log=document.getElementById('csimLog');
+  const row=document.createElement('div');
+  row.className='csim-log-row';
+  const dot=`<div class="csim-log-dot${s.warn?' w':''}"></div>`;
+  row.innerHTML=`${dot}<span>${cStep}. ${l?s.kk:s.en}: <b>${s.dna.toFixed(4)}%</b> — ${l?s.nkk:s.nen}</span>`;
+  log.appendChild(row);
+  log.scrollTop=log.scrollHeight;
+
+  document.getElementById('csimPlayBtn').disabled=cStep>=CSTEPS.length-1;
+}
+
+function csimNext(){
+  if(cStep<CSTEPS.length-1){cStep++;renderCsim();}
+  else{if(autoTmr){clearInterval(autoTmr);autoTmr=null;document.getElementById('csimAutoBtn').querySelector('.kk').textContent='⚡ Авто';document.getElementById('csimAutoBtn').querySelector('.en').textContent='⚡ Auto';}}
+}
+
+document.getElementById('csimPlayBtn').addEventListener('click',csimNext);
+document.getElementById('csimAutoBtn').addEventListener('click',()=>{
+  const btn=document.getElementById('csimAutoBtn');
+  if(autoTmr){clearInterval(autoTmr);autoTmr=null;btn.querySelector('.kk').textContent='⚡ Авто';btn.querySelector('.en').textContent='⚡ Auto';}
+  else{btn.querySelector('.kk').textContent='⏸ Тоқта';btn.querySelector('.en').textContent='⏸ Pause';autoTmr=setInterval(csimNext,1800);}
+});
+document.getElementById('csimResetBtn').addEventListener('click',()=>{
+  if(autoTmr){clearInterval(autoTmr);autoTmr=null;}
+  cStep=0;
+  document.getElementById('csimLog').innerHTML='';
+  document.getElementById('warnBadge').classList.remove('show');
+  document.getElementById('csimAutoBtn').querySelector('.kk').textContent='⚡ Авто';
+  document.getElementById('csimAutoBtn').querySelector('.en').textContent='⚡ Auto';
+  renderCsim();
+});
+renderCsim();
+
+// TIMELINE
+const TL=[
+  {kk:'Бала',    en:'Child',            dkk:'Ең жақын ұрпақ',          den:'Closest generation'},
+  {kk:'Немере',  en:'Grandchild',       dkk:'2-ші буын',                den:'2nd generation'},
+  {kk:'Шөбере',  en:'Great-grandchild', dkk:'3-ші буын',                den:'3rd generation'},
+  {kk:'Шөпшек',  en:'4th generation',  dkk:'4-ші буын',                den:'4th generation'},
+  {kk:'Немене',  en:'5th generation',  dkk:'5-ші буын',                den:'5th generation'},
+  {kk:'Туажат',  en:'6th generation',  dkk:'6-шы буын',                den:'6th generation'},
+  {kk:'Жұрағат', en:'7th generation',  dkk:'Туыстық осында аяқталады', den:'Kinship ends here'},
+];
+const tlEl=document.getElementById('timelineList');
+TL.forEach((g,i)=>{
+  const p=(100/Math.pow(2,i+1)).toFixed(4);
+  tlEl.innerHTML+=`<div class="tl-item"><div class="tl-num">${i+1}</div><div class="tl-body"><div class="tl-gen-label kk">${i+1}-буын</div><div class="tl-gen-label en">Generation ${i+1}</div><div class="tl-name kk">${g.kk}</div><div class="tl-name en">${g.en}</div><div class="tl-sub kk">${g.dkk} — ${p}%</div><div class="tl-sub en">${g.den} — ${p}%</div></div></div>`;
+});
+
+// SLIDER
+const slider=document.getElementById('genSlider'),hfig=document.getElementById('humanFig');
+function updateSlider(){
+  const v=parseInt(slider.value),g=GENS[v-1],p=(100/Math.pow(2,v-1)).toFixed(2);
+  document.getElementById('sliderVal').textContent=p+'%';
+  hfig.style.background=g.col;hfig.style.opacity=Math.max(.15,parseFloat(p)/100);
+  document.getElementById('sliderDesc').textContent=lang==='kk'?`${v}-буын: ${g.kk}`:`Gen ${v}: ${g.en}`;
+}
+slider.addEventListener('input',updateSlider);
+updateSlider();
+})();
+</script>
+</body>
+</html>
